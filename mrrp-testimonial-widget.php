@@ -3,7 +3,7 @@
  * Plugin Name: MRRP Testimonial Widget
  * Plugin URI: https://github.com/mrrploc94/mrrp-testimonial-widget
  * Description: A professional Elementor widget for displaying testimonials with horizontal scrolling slider, full-width backgrounds, and avatar navigation.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: MRRP
  * Author URI: https://github.com/mrrploc94
  * License: GPL v2 or later
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin constants
-define('MRRP_TESTIMONIAL_VERSION', '1.2.0');
+define('MRRP_TESTIMONIAL_VERSION', '1.2.1');
 define('MRRP_TESTIMONIAL_FILE', __FILE__);
 define('MRRP_TESTIMONIAL_PATH', plugin_dir_path(__FILE__));
 define('MRRP_TESTIMONIAL_URL', plugin_dir_url(__FILE__));
