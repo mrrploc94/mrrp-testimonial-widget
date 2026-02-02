@@ -557,15 +557,6 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
                 </div>
             </div>
             
-            <!-- Segmented Progress Bar -->
-            <div class="mrrp-progress-segments">
-                <?php foreach ($testimonials as $index => $item) : ?>
-                    <div class="mrrp-progress-segment <?php echo $index === 0 ? 'active' : ''; ?>" data-segment-index="<?php echo esc_attr($index); ?>">
-                        <div class="mrrp-progress-segment-fill"></div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-            
             <!-- Avatar Navigation -->
             <div class="mrrp-avatar-navigation">
                 <?php foreach ($testimonials as $index => $item) : ?>
@@ -590,6 +581,10 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
      * Render individual slide
      */
     private function render_slide($item, $index, $settings) {
+        // Get total testimonials count for segments
+        $testimonials = $settings['testimonials'];
+        $total_count = count($testimonials);
+        
         ?>
         <div class="mrrp-testimonial-slide">
             <!-- Background Image -->
@@ -609,6 +604,15 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
                             <div class="mrrp-author-title"><?php echo esc_html($item['author_title']); ?></div>
                         <?php endif; ?>
                     </div>
+                </div>
+                
+                <!-- Segmented Progress Bar (Inside Overlay Box) -->
+                <div class="mrrp-progress-segments">
+                    <?php for ($i = 0; $i < $total_count; $i++) : ?>
+                        <div class="mrrp-progress-segment <?php echo $i === $index ? 'active' : ($i < $index ? 'completed' : ''); ?>" data-segment-index="<?php echo esc_attr($i); ?>">
+                            <div class="mrrp-progress-segment-fill"></div>
+                        </div>
+                    <?php endfor; ?>
                 </div>
             </div>
         </div>

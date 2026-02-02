@@ -83,14 +83,14 @@
 }
 
 /* ===================================
-   Segmented Progress Bar
+   Segmented Progress Bar (Inside Overlay Box)
    =================================== */
 .mrrp-progress-segments {
     position: absolute;
-    bottom: 60px;
+    bottom: 20px;
     left: 40px;
     right: 40px;
-    z-index: 10;
+    z-index: 5;
     display: flex;
     gap: 8px;
     align-items: center;
@@ -275,9 +275,9 @@
 
     /* Mobile: Segmented progress bar */
     .mrrp-progress-segments {
-        bottom: 80px;
-        left: 20px;
-        right: 20px;
+        bottom: 16px;
+        left: 24px;
+        right: 24px;
         gap: 6px;
     }
 

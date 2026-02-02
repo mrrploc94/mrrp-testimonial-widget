@@ -1,7 +1,7 @@
 /**
  * MRRP Testimonial Widget JavaScript
  * 
- * Handles Swiper initialization, avatar navigation with expansion, and segmented progress bars
+ * Handles Swiper initialization, avatar navigation with expansion, and segmented progress bars inside slides
  */
 
 (function ($) {
@@ -32,13 +32,13 @@
                     init: function () {
                         console.log('Swiper initialized, initial index:', this.realIndex);
                         updateAvatarStates(0, $wrapper);
-                        updateProgressSegments(0, $wrapper, progressDuration);
+                        updateProgressSegments(0, $slider, progressDuration);
                     },
                     slideChange: function () {
                         const index = this.realIndex;
                         console.log('Slide changed to index:', index);
                         updateAvatarStates(index, $wrapper);
-                        updateProgressSegments(index, $wrapper, progressDuration);
+                        updateProgressSegments(index, $slider, progressDuration);
                     }
                 }
             });
@@ -58,8 +58,8 @@
                 swiper.slideTo(slideIndex);
             });
 
-            // Progress segment click navigation
-            $wrapper.find('.mrrp-progress-segment').on('click', function () {
+            // Progress segment click navigation (delegate to wrapper since segments are inside slides)
+            $wrapper.on('click', '.mrrp-progress-segment', function () {
                 const segmentIndex = parseInt($(this).data('segment-index'));
                 console.log('Segment clicked, navigating to index:', segmentIndex);
 
@@ -72,14 +72,14 @@
                 $wrapper.on('mouseenter', function () {
                     if (swiper.autoplay && swiper.autoplay.running) {
                         swiper.autoplay.stop();
-                        pauseProgressSegment($wrapper);
+                        pauseProgressSegment($slider);
                     }
                 });
 
                 $wrapper.on('mouseleave', function () {
                     if (swiper.autoplay && !swiper.autoplay.running) {
                         swiper.autoplay.start();
-                        resumeProgressSegment($wrapper, progressDuration);
+                        resumeProgressSegment($slider, progressDuration);
                     }
                 });
             }
@@ -100,10 +100,14 @@
     }
 
     /**
-     * Update progress segments based on active slide
+     * Update progress segments in active slide
      */
-    function updateProgressSegments(activeIndex, $wrapper, duration) {
-        $wrapper.find('.mrrp-progress-segment').each(function (index) {
+    function updateProgressSegments(activeIndex, $slider, duration) {
+        // Get active slide
+        const $activeSlide = $slider.find('.swiper-slide').eq(activeIndex);
+
+        // Update segments in active slide
+        $activeSlide.find('.mrrp-progress-segment').each(function (index) {
             const $segment = $(this);
             const $fill = $segment.find('.mrrp-progress-segment-fill');
 
@@ -154,8 +158,9 @@
     /**
      * Pause progress segment animation (on hover)
      */
-    function pauseProgressSegment($wrapper) {
-        const $activeSegment = $wrapper.find('.mrrp-progress-segment.active');
+    function pauseProgressSegment($slider) {
+        const $activeSlide = $slider.find('.swiper-slide-active');
+        const $activeSegment = $activeSlide.find('.mrrp-progress-segment.active');
         const $fill = $activeSegment.find('.mrrp-progress-segment-fill');
 
         if ($fill.length === 0) return;
@@ -178,8 +183,9 @@
     /**
      * Resume progress segment animation (on mouse leave)
      */
-    function resumeProgressSegment($wrapper, totalDuration) {
-        const $activeSegment = $wrapper.find('.mrrp-progress-segment.active');
+    function resumeProgressSegment($slider, totalDuration) {
+        const $activeSlide = $slider.find('.swiper-slide-active');
+        const $activeSegment = $activeSlide.find('.mrrp-progress-segment.active');
         const $fill = $activeSegment.find('.mrrp-progress-segment-fill');
 
         if ($fill.length === 0) return;
