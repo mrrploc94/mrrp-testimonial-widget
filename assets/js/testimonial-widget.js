@@ -25,6 +25,9 @@
             // Store progress duration for animations
             const progressDuration = config.autoplay ? config.autoplay.delay : 5000;
 
+            // Set CSS custom property for progress bar animation
+            $wrapper[0].style.setProperty('--autoplay-delay', `${progressDuration}ms`);
+
             // Initialize Swiper
             const swiper = new Swiper($slider[0], {
                 ...config,
@@ -58,10 +61,14 @@
                 swiper.slideTo(slideIndex);
             });
 
-            // Progress segment click navigation (delegate to wrapper since segments are inside slides)
-            $wrapper.on('click', '.mrrp-progress-segment', function () {
+            // Progress segment click navigation (segments are inside slides now)
+            $slider.on('click', '.mrrp-progress-segment', function (e) {
+                e.stopPropagation(); // Prevent slide click
                 const segmentIndex = parseInt($(this).data('segment-index'));
-                console.log('Segment clicked, navigating to index:', segmentIndex);
+                console.log('✅ Progress segment clicked, navigating to index:', segmentIndex);
+
+                // Immediate visual feedback
+                updateAvatarStates(segmentIndex, $wrapper);
 
                 // Navigate
                 swiper.slideTo(segmentIndex);
@@ -100,59 +107,54 @@
     }
 
     /**
-     * Update progress segments in active slide
+     * Update progress segments across ALL slides using Web Animations API
      */
     function updateProgressSegments(activeIndex, $slider, duration) {
-        // Get active slide
-        const $activeSlide = $slider.find('.swiper-slide').eq(activeIndex);
+        // Find ALL progress segments across ALL slides
+        const $allSegments = $slider.find('.mrrp-progress-segment');
 
-        // Update segments in active slide
-        $activeSlide.find('.mrrp-progress-segment').each(function (index) {
+        // Reset ALL segments first
+        $allSegments.each(function () {
             const $segment = $(this);
             const $fill = $segment.find('.mrrp-progress-segment-fill');
+            const fillElement = $fill[0];
 
-            if (index < activeIndex) {
-                // Completed segments
-                $segment.removeClass('active').addClass('completed');
-                $fill.css({
-                    'width': '100%',
-                    'transition': 'width 0.3s ease'
-                });
-            } else if (index === activeIndex) {
-                // Active segment - animate
-                $segment.removeClass('completed').addClass('active');
-                animateSegment($fill, duration);
-            } else {
-                // Future segments
-                $segment.removeClass('active completed');
-                $fill.css({
-                    'width': '0%',
-                    'transition': 'width 0.3s ease'
-                });
+            $segment.removeClass('active completed');
+
+            // Cancel existing animations
+            if (fillElement) {
+                fillElement.getAnimations().forEach(anim => anim.cancel());
             }
-        });
-    }
 
-    /**
-     * Animate a single progress segment
-     */
-    function animateSegment($fill, duration) {
-        // Reset
-        $fill.css({
-            'width': '0%',
-            'transition': 'none'
+            // Reset to 0%
+            $fill.css('width', '0%');
         });
 
-        // Force reflow
-        $fill[0].offsetHeight;
+        // Then animate ONLY segments matching activeIndex across ALL slides
+        $slider.find(`.mrrp-progress-segment[data-segment-index="${activeIndex}"]`).each(function () {
+            const $segment = $(this);
+            const $fill = $segment.find('.mrrp-progress-segment-fill');
+            const fillElement = $fill[0];
 
-        // Start animation with slight delay
-        setTimeout(() => {
-            $fill.css({
-                'width': '100%',
-                'transition': `width ${duration}ms linear`
+            $segment.addClass('active');
+
+            // Animate using Web Animations API
+            const animation = fillElement.animate([
+                { width: '0%' },
+                { width: '100%' }
+            ], {
+                duration: duration,
+                easing: 'linear',
+                fill: 'forwards'
             });
-        }, 50);
+
+            console.log('✅ Web Animations API started for segment', activeIndex);
+
+            // When animation completes, mark as completed
+            animation.onfinish = () => {
+                $segment.removeClass('active').addClass('completed');
+            };
+        });
     }
 
     /**
@@ -165,19 +167,12 @@
 
         if ($fill.length === 0) return;
 
-        // Get current width
-        const currentWidth = $fill[0].getBoundingClientRect().width;
-        const parentWidth = $fill.parent()[0].getBoundingClientRect().width;
-        const percentage = (currentWidth / parentWidth) * 100;
+        const fillElement = $fill[0];
+        const animations = fillElement.getAnimations();
 
-        // Store paused position
-        $fill.data('paused-at', percentage);
-
-        // Stop animation
-        $fill.css({
-            'width': percentage + '%',
-            'transition': 'none'
-        });
+        if (animations.length > 0) {
+            animations.forEach(anim => anim.pause());
+        }
     }
 
     /**
@@ -190,16 +185,12 @@
 
         if ($fill.length === 0) return;
 
-        // Get paused percentage
-        const pausedAt = $fill.data('paused-at') || 0;
-        const remainingPercentage = 100 - pausedAt;
-        const remainingDuration = (remainingPercentage / 100) * totalDuration;
+        const fillElement = $fill[0];
+        const animations = fillElement.getAnimations();
 
-        // Resume animation
-        $fill.css({
-            'width': '100%',
-            'transition': `width ${remainingDuration}ms linear`
-        });
+        if (animations.length > 0) {
+            animations.forEach(anim => anim.play());
+        }
     }
 
     /**

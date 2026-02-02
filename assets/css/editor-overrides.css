@@ -1,0 +1,61 @@
+/* Elementor Editor-Specific Styles for MRRP Testimonial Widget */
+
+/* Force widget container to have dimensions in editor */
+.elementor-widget-mrrp-testimonial-widget {
+    min-height: 600px !important;
+    height: auto !important;
+}
+
+/* Ensure widget wrapper displays in editor */
+.elementor-editor-active .mrrp-testimonial-wrapper {
+    position: relative !important;
+    width: 100% !important;
+    height: 600px !important;
+    min-height: 600px !important;
+    max-height: 600px !important;
+    overflow: hidden !important;
+    display: block !important;
+    background: #f0f0f0 !important;
+    /* Debug: visible background */
+}
+
+/* Force overlay box to display */
+.elementor-editor-active .mrrp-overlay-box-fixed {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 5 !important;
+    pointer-events: none !important;
+    display: block !important;
+}
+
+/* Force background images to display */
+.elementor-editor-active .mrrp-background-image {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+}
+
+/* Force text content to be visible */
+.elementor-editor-active .mrrp-text-content {
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* Force progress bars to be visible */
+.elementor-editor-active .mrrp-progress-segments {
+    display: flex !important;
+    opacity: 1 !important;
+}
+
+/* Force avatars to be visible */
+.elementor-editor-active .mrrp-avatar-navigation {
+    display: flex !important;
+    opacity: 1 !important;
+}

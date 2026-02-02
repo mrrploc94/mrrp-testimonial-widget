@@ -1,0 +1,10 @@
+/* Custom Widget Icon for Elementor Panel */
+.icon .mrrp-widget-icon {
+    width: 29px;
+    height: 29px;
+    display: block;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%2393003c' d='M448 256c0-106-86-192-192-192S64 150 64 256c0 45.1 14.6 86.9 39.5 120.8l-34 94.3c-2.4 6.6 .3 14 6.3 17.5s13.7 3.3 19.3-1.6l103-88.6c18 6.7 37.6 10.5 57.9 10.5 106 0 192-86 192-192zM224 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm-80 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}

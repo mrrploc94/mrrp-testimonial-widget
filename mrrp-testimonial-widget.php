@@ -3,7 +3,7 @@
  * Plugin Name: MRRP Testimonial Widget
  * Plugin URI: https://github.com/yourusername/mrrp-testimonial-widget
  * Description: A professional Elementor widget for displaying testimonials with horizontal scrolling slider, full-width backgrounds, and avatar navigation.
- * Version: 1.0.0
+ * Version: 1.2.0
  * Author: MRRP
  * Author URI: https://github.com/yourusername
  * License: GPL v2 or later
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin constants
-define('MRRP_TESTIMONIAL_VERSION', '1.0.0');
+define('MRRP_TESTIMONIAL_VERSION', '1.2.0');
 define('MRRP_TESTIMONIAL_FILE', __FILE__);
 define('MRRP_TESTIMONIAL_PATH', plugin_dir_path(__FILE__));
 define('MRRP_TESTIMONIAL_URL', plugin_dir_url(__FILE__));
@@ -88,6 +88,12 @@ final class MRRP_Testimonial_Widget {
         
         // Load plugin text domain
         add_action('init', [$this, 'load_textdomain']);
+        
+        // Initialize GitHub updater
+        $this->init_github_updater();
+        
+        // Initialize admin settings
+        $this->init_admin_settings();
     }
     
     /**
@@ -217,3 +223,24 @@ final class MRRP_Testimonial_Widget {
 
 // Initialize the plugin
 MRRP_Testimonial_Widget::instance();
+    
+    /**
+     * Initialize GitHub updater
+     */
+    private function init_github_updater() {
+        require_once MRRP_TESTIMONIAL_PATH . 'includes/class-github-updater.php';
+        new MRRP_GitHub_Updater(
+            MRRP_TESTIMONIAL_FILE,
+            'yourusername', // TODO: Replace with actual GitHub username
+            'mrrp-testimonial-widget'
+        );
+    }
+    
+    /**
+     * Initialize admin settings
+     */
+    private function init_admin_settings() {
+        if (is_admin()) {
+            require_once MRRP_TESTIMONIAL_PATH . 'includes/class-admin-settings.php';
+        }
+    }

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Bar Animation Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: #1a1a1a;
+            font-family: Arial, sans-serif;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #2a2a2a;
+            padding: 40px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        .progress-segments {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+
+        .progress-segment {
+            flex: 1;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-segment:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scaleY(1.3);
+        }
+
+        .progress-segment-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: #F5C518;
+        }
+
+        .progress-segment.active {
+            box-shadow: 0 0 8px rgba(245, 197, 24, 0.5);
+        }
+
+        .progress-segment.completed .progress-segment-fill {
+            width: 100%;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #F5C518;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #d4a817;
+        }
+
+        .info {
+            color: #aaa;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .status {
+            color: #4CAF50;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-container">
+        <h1>🧪 Progress Bar Animation Test</h1>
+
+        <div class="controls">
+            <button onclick="startAnimation(0)">Animate Segment 1</button>
+            <button onclick="startAnimation(1)">Animate Segment 2</button>
+            <button onclick="startAnimation(2)">Animate Segment 3</button>
+            <button onclick="resetAll()">Reset All</button>
+        </div>
+
+        <div class="progress-segments">
+            <div class="progress-segment" data-index="0">
+                <div class="progress-segment-fill"></div>
+            </div>
+            <div class="progress-segment" data-index="1">
+                <div class="progress-segment-fill"></div>
+            </div>
+            <div class="progress-segment" data-index="2">
+                <div class="progress-segment-fill"></div>
+            </div>
+        </div>
+
+        <div class="info">
+            <strong>Test Purpose:</strong> Verify Web Animations API works for progress bars
+            <div class="status" id="status">Ready to test</div>
+        </div>
+    </div>
+
+    <script>
+        const segments = document.querySelectorAll('.progress-segment');
+        const duration = 5000; // 5 seconds
+
+        function startAnimation(index) {
+            // Reset ALL segments to 0% first
+            segments.forEach((seg, i) => {
+                const fill = seg.querySelector('.progress-segment-fill');
+                const fillElement = fill;
+
+                seg.classList.remove('active', 'completed');
+
+                // Cancel existing animations
+                if (fillElement) {
+                    fillElement.getAnimations().forEach(anim => anim.cancel());
+                }
+
+                // Reset to 0%
+                fill.style.width = '0%';
+            });
+
+            // Then animate ONLY the selected segment
+            const activeSeg = segments[index];
+            const activeFill = activeSeg.querySelector('.progress-segment-fill');
+
+            activeSeg.classList.add('active');
+
+            // Web Animations API
+            const animation = activeFill.animate([
+                { width: '0%' },
+                { width: '100%' }
+            ], {
+                duration: duration,
+                easing: 'linear',
+                fill: 'forwards'
+            });
+
+            document.getElementById('status').textContent = `✅ Animating segment ${index + 1} using Web Animations API`;
+            console.log('Animation started:', animation);
+
+            animation.onfinish = () => {
+                document.getElementById('status').textContent = `✅ Segment ${index + 1} animation completed!`;
+                activeSeg.classList.remove('active');
+                activeSeg.classList.add('completed');
+            };
+        }
+
+        function resetAll() {
+            segments.forEach(seg => {
+                const fill = seg.querySelector('.progress-segment-fill');
+                const fillElement = fill;
+
+                seg.classList.remove('active', 'completed');
+
+                if (fillElement) {
+                    fillElement.getAnimations().forEach(anim => anim.cancel());
+                }
+
+                fill.style.width = '0%';
+            });
+
+            document.getElementById('status').textContent = 'Reset complete. Ready to test.';
+        }
+
+        // Auto-start first segment on load
+        setTimeout(() => {
+            startAnimation(0);
+        }, 500);
+    </script>
+</body>
+
+</html>

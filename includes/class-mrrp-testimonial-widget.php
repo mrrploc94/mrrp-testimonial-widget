@@ -110,22 +110,12 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
         $repeater->add_control(
             'background_image',
             [
-                'label' => esc_html__('Background Image', 'mrrp-testimonial'),
+                'label' => esc_html__('Slide Image (Background & Avatar)', 'mrrp-testimonial'),
                 'type' => \Elementor\Controls_Manager::MEDIA,
                 'default' => [
                     'url' => \Elementor\Utils::get_placeholder_image_src(),
                 ],
-            ]
-        );
-        
-        $repeater->add_control(
-            'avatar_image',
-            [
-                'label' => esc_html__('Avatar Image', 'mrrp-testimonial'),
-                'type' => \Elementor\Controls_Manager::MEDIA,
-                'default' => [
-                    'url' => \Elementor\Utils::get_placeholder_image_src(),
-                ],
+                'description' => esc_html__('This image will be used for both background and avatar', 'mrrp-testimonial'),
             ]
         );
         
@@ -557,12 +547,12 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
                 </div>
             </div>
             
-            <!-- Avatar Navigation -->
+            <!-- Avatars (outside swiper) -->
             <div class="mrrp-avatar-navigation">
-                <?php foreach ($testimonials as $index => $item) : ?>
-                    <div class="mrrp-avatar-item <?php echo $index === 0 ? 'active' : ''; ?>" data-slide-index="<?php echo esc_attr($index); ?>">
-                        <?php if (!empty($item['avatar_image']['url'])) : ?>
-                            <img src="<?php echo esc_url($item['avatar_image']['url']); ?>" alt="<?php echo esc_attr($item['author_name']); ?>" class="mrrp-avatar-img">
+                <?php foreach ($testimonials as $idx => $item) : ?>
+                    <div class="mrrp-avatar-item <?php echo $idx === 0 ? 'active' : ''; ?>" data-slide-index="<?php echo esc_attr($idx); ?>">
+                        <?php if (!empty($item['background_image']['url'])) : ?>
+                            <img src="<?php echo esc_url($item['background_image']['url']); ?>" alt="<?php echo esc_attr($item['author_name']); ?>" class="mrrp-avatar-img">
                         <?php endif; ?>
                         <div class="mrrp-avatar-label-box">
                             <?php if (!empty($item['author_title'])) : ?>
@@ -581,7 +571,6 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
      * Render individual slide
      */
     private function render_slide($item, $index, $settings) {
-        // Get total testimonials count for segments
         $testimonials = $settings['testimonials'];
         $total_count = count($testimonials);
         
@@ -592,24 +581,18 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
                 <div class="mrrp-slide-background" style="background-image: url('<?php echo esc_url($item['background_image']['url']); ?>');"></div>
             <?php endif; ?>
             
-            <!-- Overlay Box -->
+            <!-- Overlay Box (Quote + Progress Bars) -->
             <div class="mrrp-overlay-box">
                 <div class="mrrp-testimonial-content">
                     <div class="mrrp-testimonial-quote">
                         "<?php echo esc_html($item['testimonial_text']); ?>"
                     </div>
-                    <div class="mrrp-testimonial-author">
-                        <div class="mrrp-author-name"><?php echo esc_html($item['author_name']); ?></div>
-                        <?php if (!empty($item['author_title'])) : ?>
-                            <div class="mrrp-author-title"><?php echo esc_html($item['author_title']); ?></div>
-                        <?php endif; ?>
-                    </div>
                 </div>
                 
-                <!-- Segmented Progress Bar (Inside Overlay Box) -->
+                <!-- Progress Bars (INSIDE overlay box) -->
                 <div class="mrrp-progress-segments">
                     <?php for ($i = 0; $i < $total_count; $i++) : ?>
-                        <div class="mrrp-progress-segment <?php echo $i === $index ? 'active' : ($i < $index ? 'completed' : ''); ?>" data-segment-index="<?php echo esc_attr($i); ?>">
+                        <div class="mrrp-progress-segment <?php echo $i === $index ? 'active' : ''; ?>" data-segment-index="<?php echo esc_attr($i); ?>">
                             <div class="mrrp-progress-segment-fill"></div>
                         </div>
                     <?php endfor; ?>
