@@ -1,7 +1,7 @@
 /**
  * MRRP Testimonial Widget JavaScript
  * 
- * Handles Swiper initialization, avatar navigation, and progress bars
+ * Handles Swiper initialization, avatar navigation with expansion, and progress bars inside slides
  */
 
 (function ($) {
@@ -16,7 +16,6 @@
             const $wrapper = $slider.closest('.mrrp-testimonial-slider-wrapper');
             const widgetId = $wrapper.data('widget-id');
             const config = $slider.data('config');
-            const $progressBars = $wrapper.find('.mrrp-progress-bar');
 
             // Skip if already initialized
             if ($slider.hasClass('swiper-initialized')) {
@@ -25,23 +24,28 @@
 
             // Store progress duration for animations
             const progressDuration = config.autoplay ? config.autoplay.delay : 5000;
-            $wrapper[0].style.setProperty('--progress-duration', progressDuration + 'ms');
 
             // Initialize Swiper
             const swiper = new Swiper($slider[0], {
                 ...config,
                 on: {
                     init: function () {
-                        updateActiveStates(0, $wrapper);
+                        updateAvatarStates(0, $wrapper);
                         if (config.autoplay) {
-                            startProgressAnimation(0, $wrapper, progressDuration);
+                            startSlideProgress(0, $slider, progressDuration);
                         }
                     },
                     slideChange: function () {
                         const index = this.realIndex;
-                        updateActiveStates(index, $wrapper);
+                        updateAvatarStates(index, $wrapper);
                         if (config.autoplay) {
-                            startProgressAnimation(index, $wrapper, progressDuration);
+                            // Reset all progress bars
+                            $slider.find('.mrrp-slide-progress-fill').css({
+                                'width': '0%',
+                                'transition': 'none'
+                            });
+                            // Start new slide's progress
+                            startSlideProgress(index, $slider, progressDuration);
                         }
                     }
                 }
@@ -56,25 +60,19 @@
                 swiper.slideTo(slideIndex);
             });
 
-            // Progress bar click navigation
-            $progressBars.on('click', function () {
-                const slideIndex = $(this).data('slide-index');
-                swiper.slideTo(slideIndex);
-            });
-
             // Pause on hover (if enabled)
             if (config.autoplay && config.autoplay.pauseOnMouseEnter) {
                 $wrapper.on('mouseenter', function () {
                     if (swiper.autoplay && swiper.autoplay.running) {
                         swiper.autoplay.stop();
-                        pauseProgressAnimation($wrapper);
+                        pauseSlideProgress($slider);
                     }
                 });
 
                 $wrapper.on('mouseleave', function () {
                     if (swiper.autoplay && !swiper.autoplay.running) {
                         swiper.autoplay.start();
-                        resumeProgressAnimation($wrapper, progressDuration);
+                        resumeSlideProgress($slider, progressDuration);
                     }
                 });
             }
@@ -82,49 +80,39 @@
     }
 
     /**
-     * Update active states for both avatars and progress bars
+     * Update avatar active states (with expansion animation)
      */
-    function updateActiveStates(index, $wrapper) {
-        // Update avatar active state
-        $wrapper.find('.mrrp-avatar-item').removeClass('active');
-        $wrapper.find('.mrrp-avatar-item').eq(index).addClass('active');
-
-        // Update progress bar states
-        $wrapper.find('.mrrp-progress-bar').each(function (i) {
-            const $bar = $(this);
-            if (i < index) {
-                // Completed bars
-                $bar.removeClass('active').addClass('completed');
-            } else if (i === index) {
-                // Active bar
-                $bar.removeClass('completed').addClass('active');
+    function updateAvatarStates(index, $wrapper) {
+        $wrapper.find('.mrrp-avatar-item').each(function (i) {
+            if (i === index) {
+                $(this).addClass('active');
             } else {
-                // Upcoming bars
-                $bar.removeClass('active completed');
-                $bar.find('.mrrp-progress-fill').css('width', '0%');
+                $(this).removeClass('active');
             }
         });
     }
 
     /**
-     * Start progress bar animation
+     * Start progress bar animation for specific slide
      */
-    function startProgressAnimation(index, $wrapper, duration) {
-        const $activeBar = $wrapper.find('.mrrp-progress-bar').eq(index);
-        const $fill = $activeBar.find('.mrrp-progress-fill');
+    function startSlideProgress(slideIndex, $slider, duration) {
+        const $slide = $slider.find('.swiper-slide').eq(slideIndex);
+        const $progress = $slide.find('.mrrp-slide-progress-fill');
 
-        // Reset animation
-        $fill.css({
+        if ($progress.length === 0) return;
+
+        // Reset
+        $progress.css({
             'width': '0%',
             'transition': 'none'
         });
 
-        // Force reflow to restart animation
-        $fill[0].offsetHeight;
+        // Force reflow
+        $progress[0].offsetHeight;
 
         // Start animation with slight delay
         setTimeout(() => {
-            $fill.css({
+            $progress.css({
                 'width': '100%',
                 'transition': `width ${duration}ms linear`
             });
@@ -134,21 +122,22 @@
     /**
      * Pause progress animation (on hover)
      */
-    function pauseProgressAnimation($wrapper) {
-        const $activeFill = $wrapper.find('.mrrp-progress-bar.active .mrrp-progress-fill');
+    function pauseSlideProgress($slider) {
+        const $activeSlide = $slider.find('.swiper-slide-active');
+        const $progress = $activeSlide.find('.mrrp-slide-progress-fill');
 
-        if ($activeFill.length === 0) return;
+        if ($progress.length === 0) return;
 
         // Get current width
-        const currentWidth = $activeFill[0].getBoundingClientRect().width;
-        const parentWidth = $activeFill.parent()[0].getBoundingClientRect().width;
+        const currentWidth = $progress[0].getBoundingClientRect().width;
+        const parentWidth = $progress.parent()[0].getBoundingClientRect().width;
         const percentage = (currentWidth / parentWidth) * 100;
 
-        // Store current percentage
-        $activeFill.data('paused-at', percentage);
+        // Store paused position
+        $progress.data('paused-at', percentage);
 
         // Stop animation
-        $activeFill.css({
+        $progress.css({
             'width': percentage + '%',
             'transition': 'none'
         });
@@ -157,18 +146,19 @@
     /**
      * Resume progress animation (on mouse leave)
      */
-    function resumeProgressAnimation($wrapper, totalDuration) {
-        const $activeFill = $wrapper.find('.mrrp-progress-bar.active .mrrp-progress-fill');
+    function resumeSlideProgress($slider, totalDuration) {
+        const $activeSlide = $slider.find('.swiper-slide-active');
+        const $progress = $activeSlide.find('.mrrp-slide-progress-fill');
 
-        if ($activeFill.length === 0) return;
+        if ($progress.length === 0) return;
 
         // Get paused percentage
-        const pausedAt = $activeFill.data('paused-at') || 0;
+        const pausedAt = $progress.data('paused-at') || 0;
         const remainingPercentage = 100 - pausedAt;
         const remainingDuration = (remainingPercentage / 100) * totalDuration;
 
         // Resume animation
-        $activeFill.css({
+        $progress.css({
             'width': '100%',
             'transition': `width ${remainingDuration}ms linear`
         });

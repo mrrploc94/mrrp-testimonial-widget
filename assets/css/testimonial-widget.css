@@ -123,154 +123,125 @@
     left: 40px;
     z-index: 10;
     display: flex;
-    gap: 16px;
-    align-items: center;
-}
-
-.mrrp-avatar-item {
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-}
-
-.mrrp-avatar-item:hover {
-    transform: scale(1.05);
-}
-
-.mrrp-avatar-image {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid transparent;
-    transition: all 0.3s ease;
-    opacity: 0.7;
-}
-
-.mrrp-avatar-item.active .mrrp-avatar-image {
-    border-color: #4CAF50;
-    opacity: 1;
-}
-
-.mrrp-avatar-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.mrrp-avatar-name {
-    margin-top: 8px;
-    font-size: 12px;
-    color: #ffffff;
-    opacity: 0.7;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 500;
-}
-
-.mrrp-avatar-item.active .mrrp-avatar-name {
-    color: #4CAF50;
-    opacity: 1;
-}
-
-/* Avatar Title (Job Title) */
-.mrrp-avatar-title {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: calc(100% + 16px);
-    transform: translateY(-50%);
-    background: #4CAF50;
-    color: #ffffff;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    white-space: nowrap;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
-    z-index: 20;
-}
-
-.mrrp-avatar-item {
-    position: relative;
-}
-
-.mrrp-avatar-item.active .mrrp-avatar-title {
-    display: block;
-    animation: slideInRight 0.3s ease-out;
-}
-
-@keyframes slideInRight {
-    from {
-        opacity: 0;
-        transform: translateY(-50%) translateX(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(-50%) translateX(0);
-    }
-}
-
-/* ===================================
-   Progress Bars
-   =================================== */
-.mrrp-progress-bars {
-    position: absolute;
-    bottom: 20px;
-    left: 40px;
-    right: 40px;
-    z-index: 10;
-    display: flex;
     gap: 12px;
     align-items: center;
 }
 
-.mrrp-progress-bar {
-    flex: 1;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 2px;
+.mrrp-avatar-item {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    padding: 0;
 }
 
-.mrrp-progress-bar:hover {
-    background: rgba(255, 255, 255, 0.4);
-    transform: scaleY(1.2);
+.mrrp-avatar-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+    flex-shrink: 0;
+    border-radius: 10px;
 }
 
-.mrrp-progress-fill {
+/* Inactive avatar hover */
+.mrrp-avatar-item:not(.active):hover {
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.mrrp-avatar-item:not(.active):hover .mrrp-avatar-img {
+    opacity: 0.8;
+}
+
+/* Active avatar - EXPAND */
+.mrrp-avatar-item.active {
+    width: 180px;
+    background: #4CAF50;
+    border-color: #4CAF50;
+    padding: 0 16px 0 0;
+    gap: 12px;
+}
+
+.mrrp-avatar-item.active .mrrp-avatar-img {
+    opacity: 1;
+}
+
+/* Avatar Label - hidden by default */
+.mrrp-avatar-label {
+    display: none;
+    flex-direction: column;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.mrrp-avatar-item.active .mrrp-avatar-label {
+    display: flex;
+    animation: fadeInLabel 0.3s ease 0.15s both;
+}
+
+.label-title {
+    font-size: 9px;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.label-name {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+@keyframes fadeInLabel {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ===================================
+   Progress Bar (Inside Overlay Box)
+   =================================== */
+.mrrp-slide-progress {
     position: absolute;
-    top: 0;
-    left: 0;
+    bottom: 20px;
+    left: 40px;
+    right: 40px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.mrrp-slide-progress-fill {
     height: 100%;
     width: 0%;
     background: #F5C518;
-    /* Yellow/Gold from screenshot */
+    /* Yellow/Gold */
     transition: width 0.3s ease;
 }
 
-/* Active progress bar - animating */
-.mrrp-progress-bar.active .mrrp-progress-fill {
-    /* Animation will be controlled by JavaScript */
+/* Active slide progress animation */
+.swiper-slide-active .mrrp-slide-progress-fill {
+    /* Animation controlled by JavaScript */
 }
-
-/* Completed progress bar */
-.mrrp-progress-bar.completed .mrrp-progress-fill {
-    width: 100%;
-}
-
-/* Progress bar glow effect */
-.mrrp-progress-bar.active {
-    box-shadow: 0 0 8px rgba(245, 197, 24, 0.4);
-}
-
 
 /* ===================================
    Responsive Styles
@@ -348,53 +319,77 @@
         margin-top: 4px;
     }
 
-    /* Mobile: Avatar title below avatar */
-    .mrrp-avatar-title {
-        position: static;
-        transform: none;
-        margin-top: 8px;
-        font-size: 10px;
-        padding: 6px 12px;
-        display: none;
-    }
-
-    .mrrp-avatar-item.active .mrrp-avatar-title {
-        display: block;
-        animation: fadeIn 0.3s ease-out;
-    }
-
-    /* Mobile: Progress bars below avatars */
-    .mrrp-progress-bars {
-        bottom: 80px;
-        /* Make room above avatars */
+    /* Mobile: Avatar navigation adjustments */
+    .mrrp-avatar-navigation {
+        bottom: 20px;
         left: 20px;
-        right: 20px;
+        gap: 8px;
+        flex-wrap: wrap;
+        max-width: calc(100% - 40px);
+    }
+
+    .mrrp-avatar-item {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+    }
+
+    .mrrp-avatar-img {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+    }
+
+    /* Mobile: Active avatar smaller expansion */
+    .mrrp-avatar-item.active {
+        width: 140px;
+        padding: 0 12px 0 0;
         gap: 8px;
     }
 
-    .mrrp-progress-bar {
-        height: 3px;
+    .label-title {
+        font-size: 8px;
     }
 
-    /* Adjust avatar navigation position */
-    .mrrp-avatar-navigation {
-        bottom: 20px;
+    .label-name {
+        font-size: 9px;
+    }
+
+    /* Mobile: Progress bar inside overlay */
+    .mrrp-slide-progress {
+        bottom: 16px;
+        left: 24px;
+        right: 24px;
+        height: 2px;
     }
 }
 
 /* Small Mobile */
 @media (max-width: 480px) {
     .mrrp-avatar-navigation {
-        gap: 8px;
+        gap: 6px;
     }
 
-    .mrrp-avatar-image {
+    .mrrp-avatar-item {
         width: 32px;
         height: 32px;
     }
 
-    .mrrp-avatar-name {
-        display: none;
+    .mrrp-avatar-img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .mrrp-avatar-item.active {
+        width: 120px;
+    }
+
+    .label-title {
+        font-size: 7px;
+    }
+
+    .label-name {
+        font-size: 8px;
     }
 }
 

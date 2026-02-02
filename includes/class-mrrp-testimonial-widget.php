@@ -561,24 +561,15 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
             <div class="mrrp-avatar-navigation">
                 <?php foreach ($testimonials as $index => $item) : ?>
                     <div class="mrrp-avatar-item <?php echo $index === 0 ? 'active' : ''; ?>" data-slide-index="<?php echo esc_attr($index); ?>">
-                        <div class="mrrp-avatar-image">
-                            <?php if (!empty($item['avatar_image']['url'])) : ?>
-                                <img src="<?php echo esc_url($item['avatar_image']['url']); ?>" alt="<?php echo esc_attr($item['author_name']); ?>">
-                            <?php endif; ?>
-                        </div>
-                        <div class="mrrp-avatar-name"><?php echo esc_html($item['author_name']); ?></div>
-                        <?php if (!empty($item['author_title'])) : ?>
-                            <div class="mrrp-avatar-title"><?php echo esc_html($item['author_title']); ?></div>
+                        <?php if (!empty($item['avatar_image']['url'])) : ?>
+                            <img src="<?php echo esc_url($item['avatar_image']['url']); ?>" alt="<?php echo esc_attr($item['author_name']); ?>" class="mrrp-avatar-img">
                         <?php endif; ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-            
-            <!-- Progress Bars -->
-            <div class="mrrp-progress-bars">
-                <?php foreach ($testimonials as $index => $item) : ?>
-                    <div class="mrrp-progress-bar <?php echo $index === 0 ? 'active' : ''; ?>" data-slide-index="<?php echo esc_attr($index); ?>">
-                        <div class="mrrp-progress-fill"></div>
+                        <div class="mrrp-avatar-label">
+                            <?php if (!empty($item['author_title'])) : ?>
+                                <span class="label-title"><?php echo esc_html(strtoupper($item['author_title'])); ?></span>
+                            <?php endif; ?>
+                            <span class="label-name"><?php echo esc_html(strtoupper($item['author_name'])); ?></span>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -609,6 +600,11 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
                             <div class="mrrp-author-title"><?php echo esc_html($item['author_title']); ?></div>
                         <?php endif; ?>
                     </div>
+                </div>
+                
+                <!-- Progress Bar (Inside Overlay Box) -->
+                <div class="mrrp-slide-progress">
+                    <div class="mrrp-slide-progress-fill"></div>
                 </div>
             </div>
         </div>
