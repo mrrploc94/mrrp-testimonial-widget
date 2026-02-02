@@ -174,6 +174,104 @@
     opacity: 1;
 }
 
+/* Avatar Title (Job Title) */
+.mrrp-avatar-title {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 16px);
+    transform: translateY(-50%);
+    background: #4CAF50;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+    z-index: 20;
+}
+
+.mrrp-avatar-item {
+    position: relative;
+}
+
+.mrrp-avatar-item.active .mrrp-avatar-title {
+    display: block;
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+    }
+}
+
+/* ===================================
+   Progress Bars
+   =================================== */
+.mrrp-progress-bars {
+    position: absolute;
+    bottom: 20px;
+    left: 40px;
+    right: 40px;
+    z-index: 10;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.mrrp-progress-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.mrrp-progress-bar:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scaleY(1.2);
+}
+
+.mrrp-progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: #F5C518;
+    /* Yellow/Gold from screenshot */
+    transition: width 0.3s ease;
+}
+
+/* Active progress bar - animating */
+.mrrp-progress-bar.active .mrrp-progress-fill {
+    /* Animation will be controlled by JavaScript */
+}
+
+/* Completed progress bar */
+.mrrp-progress-bar.completed .mrrp-progress-fill {
+    width: 100%;
+}
+
+/* Progress bar glow effect */
+.mrrp-progress-bar.active {
+    box-shadow: 0 0 8px rgba(245, 197, 24, 0.4);
+}
+
+
 /* ===================================
    Responsive Styles
    =================================== */
@@ -184,16 +282,16 @@
         width: 45%;
         padding: 32px;
     }
-    
+
     .mrrp-testimonial-quote {
         font-size: 16px;
     }
-    
+
     .mrrp-avatar-image {
         width: 40px;
         height: 40px;
     }
-    
+
     .mrrp-avatar-navigation {
         bottom: 40px;
         gap: 12px;
@@ -205,32 +303,32 @@
     .mrrp-testimonial-slider-wrapper {
         min-height: 500px;
     }
-    
+
     .mrrp-testimonial-slide {
         padding: 20px;
         align-items: flex-start;
         padding-top: 80px;
     }
-    
+
     .mrrp-overlay-box {
         width: 90%;
         max-width: none;
         padding: 24px;
     }
-    
+
     .mrrp-testimonial-quote {
         font-size: 14px;
         margin-bottom: 16px;
     }
-    
+
     .mrrp-author-name {
         font-size: 14px;
     }
-    
+
     .mrrp-author-title {
         font-size: 12px;
     }
-    
+
     .mrrp-avatar-navigation {
         bottom: 20px;
         left: 20px;
@@ -238,16 +336,49 @@
         flex-wrap: wrap;
         max-width: calc(100% - 40px);
     }
-    
+
     .mrrp-avatar-image {
         width: 36px;
         height: 36px;
         border-width: 2px;
     }
-    
+
     .mrrp-avatar-name {
         font-size: 10px;
         margin-top: 4px;
+    }
+
+    /* Mobile: Avatar title below avatar */
+    .mrrp-avatar-title {
+        position: static;
+        transform: none;
+        margin-top: 8px;
+        font-size: 10px;
+        padding: 6px 12px;
+        display: none;
+    }
+
+    .mrrp-avatar-item.active .mrrp-avatar-title {
+        display: block;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    /* Mobile: Progress bars below avatars */
+    .mrrp-progress-bars {
+        bottom: 80px;
+        /* Make room above avatars */
+        left: 20px;
+        right: 20px;
+        gap: 8px;
+    }
+
+    .mrrp-progress-bar {
+        height: 3px;
+    }
+
+    /* Adjust avatar navigation position */
+    .mrrp-avatar-navigation {
+        bottom: 20px;
     }
 }
 
@@ -256,12 +387,12 @@
     .mrrp-avatar-navigation {
         gap: 8px;
     }
-    
+
     .mrrp-avatar-image {
         width: 32px;
         height: 32px;
     }
-    
+
     .mrrp-avatar-name {
         display: none;
     }
@@ -275,6 +406,7 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);

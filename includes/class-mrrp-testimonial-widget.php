@@ -425,6 +425,97 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
         );
         
         $this->end_controls_section();
+        
+        // Style Tab - Progress Bars
+        $this->start_controls_section(
+            'section_progress_style',
+            [
+                'label' => esc_html__('Progress Bars', 'mrrp-testimonial'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+        
+        $this->add_control(
+            'progress_bar_color',
+            [
+                'label' => esc_html__('Active Color', 'mrrp-testimonial'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#F5C518',
+                'selectors' => [
+                    '{{WRAPPER}} .mrrp-progress-fill' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+        
+        $this->add_control(
+            'progress_bar_bg',
+            [
+                'label' => esc_html__('Background Color', 'mrrp-testimonial'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'rgba(255, 255, 255, 0.3)',
+                'selectors' => [
+                    '{{WRAPPER}} .mrrp-progress-bar' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+        
+        $this->add_responsive_control(
+            'progress_bar_height',
+            [
+                'label' => esc_html__('Height', 'mrrp-testimonial'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px'],
+                'range' => [
+                    'px' => [
+                        'min' => 2,
+                        'max' => 10,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 4,
+                ],
+                'tablet_default' => [
+                    'unit' => 'px',
+                    'size' => 4,
+                ],
+                'mobile_default' => [
+                    'unit' => 'px',
+                    'size' => 3,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .mrrp-progress-bar' => 'height: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+        
+        $this->add_responsive_control(
+            'progress_bar_gap',
+            [
+                'label' => esc_html__('Gap Between Bars', 'mrrp-testimonial'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px'],
+                'range' => [
+                    'px' => [
+                        'min' => 4,
+                        'max' => 20,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 12,
+                ],
+                'mobile_default' => [
+                    'unit' => 'px',
+                    'size' => 8,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .mrrp-progress-bars' => 'gap: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+        
+        $this->end_controls_section();
     }
     
     /**
@@ -476,6 +567,18 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
                             <?php endif; ?>
                         </div>
                         <div class="mrrp-avatar-name"><?php echo esc_html($item['author_name']); ?></div>
+                        <?php if (!empty($item['author_title'])) : ?>
+                            <div class="mrrp-avatar-title"><?php echo esc_html($item['author_title']); ?></div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            
+            <!-- Progress Bars -->
+            <div class="mrrp-progress-bars">
+                <?php foreach ($testimonials as $index => $item) : ?>
+                    <div class="mrrp-progress-bar <?php echo $index === 0 ? 'active' : ''; ?>" data-slide-index="<?php echo esc_attr($index); ?>">
+                        <div class="mrrp-progress-fill"></div>
                     </div>
                 <?php endforeach; ?>
             </div>
