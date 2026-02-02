@@ -51,7 +51,7 @@ class MRRP_Admin_Settings {
         // Get update info
         $updater = new MRRP_GitHub_Updater(
             MRRP_TESTIMONIAL_FILE,
-            'yourusername', // Replace with actual GitHub username
+            'mrrploc94', // Replace with actual GitHub username
             'mrrp-testimonial-widget'
         );
         

@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: MRRP Testimonial Widget
- * Plugin URI: https://github.com/yourusername/mrrp-testimonial-widget
+ * Plugin URI: https://github.com/mrrploc94/mrrp-testimonial-widget
  * Description: A professional Elementor widget for displaying testimonials with horizontal scrolling slider, full-width backgrounds, and avatar navigation.
  * Version: 1.2.0
  * Author: MRRP
- * Author URI: https://github.com/yourusername
+ * Author URI: https://github.com/mrrploc94
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: mrrp-testimonial
@@ -231,7 +231,7 @@ MRRP_Testimonial_Widget::instance();
         require_once MRRP_TESTIMONIAL_PATH . 'includes/class-github-updater.php';
         new MRRP_GitHub_Updater(
             MRRP_TESTIMONIAL_FILE,
-            'yourusername', // TODO: Replace with actual GitHub username
+            'mrrploc94', // TODO: Replace with actual GitHub username
             'mrrp-testimonial-widget'
         );
     }
