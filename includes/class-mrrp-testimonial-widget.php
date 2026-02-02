@@ -199,7 +199,7 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
             [
                 'label' => esc_html__('Transition Speed (ms)', 'mrrp-testimonial'),
                 'type' => \Elementor\Controls_Manager::NUMBER,
-                'default' => 800,
+                'default' => 600,
                 'min' => 300,
                 'max' => 2000,
                 'step' => 100,
@@ -557,6 +557,15 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
                 </div>
             </div>
             
+            <!-- Segmented Progress Bar -->
+            <div class="mrrp-progress-segments">
+                <?php foreach ($testimonials as $index => $item) : ?>
+                    <div class="mrrp-progress-segment <?php echo $index === 0 ? 'active' : ''; ?>" data-segment-index="<?php echo esc_attr($index); ?>">
+                        <div class="mrrp-progress-segment-fill"></div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            
             <!-- Avatar Navigation -->
             <div class="mrrp-avatar-navigation">
                 <?php foreach ($testimonials as $index => $item) : ?>
@@ -564,7 +573,7 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
                         <?php if (!empty($item['avatar_image']['url'])) : ?>
                             <img src="<?php echo esc_url($item['avatar_image']['url']); ?>" alt="<?php echo esc_attr($item['author_name']); ?>" class="mrrp-avatar-img">
                         <?php endif; ?>
-                        <div class="mrrp-avatar-label">
+                        <div class="mrrp-avatar-label-box">
                             <?php if (!empty($item['author_title'])) : ?>
                                 <span class="label-title"><?php echo esc_html(strtoupper($item['author_title'])); ?></span>
                             <?php endif; ?>
@@ -600,11 +609,6 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
                             <div class="mrrp-author-title"><?php echo esc_html($item['author_title']); ?></div>
                         <?php endif; ?>
                     </div>
-                </div>
-                
-                <!-- Progress Bar (Inside Overlay Box) -->
-                <div class="mrrp-slide-progress">
-                    <div class="mrrp-slide-progress-fill"></div>
                 </div>
             </div>
         </div>
