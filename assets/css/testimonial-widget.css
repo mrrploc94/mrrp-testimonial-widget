@@ -1,0 +1,321 @@
+/**
+ * MRRP Testimonial Widget Styles
+ * 
+ * Horizontal scrolling testimonial slider with full-width backgrounds
+ * and avatar navigation
+ */
+
+/* ===================================
+   Slider Wrapper
+   =================================== */
+.mrrp-testimonial-slider-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+}
+
+/* ===================================
+   Swiper Container
+   =================================== */
+.mrrp-testimonial-swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.mrrp-testimonial-swiper .swiper-wrapper {
+    height: 100%;
+}
+
+.mrrp-testimonial-swiper .swiper-slide {
+    height: 100%;
+}
+
+/* ===================================
+   Individual Slide
+   =================================== */
+.mrrp-testimonial-slide {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px;
+}
+
+/* ===================================
+   Background Image Layer
+   =================================== */
+.mrrp-slide-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+.mrrp-slide-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* ===================================
+   Overlay Box
+   =================================== */
+.mrrp-overlay-box {
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: 10px;
+    padding: 40px;
+    max-width: 600px;
+    width: 35%;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* ===================================
+   Testimonial Content
+   =================================== */
+.mrrp-testimonial-content {
+    color: #ffffff;
+}
+
+.mrrp-testimonial-quote {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    font-weight: 400;
+}
+
+.mrrp-testimonial-author {
+    margin-top: 20px;
+}
+
+.mrrp-author-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.mrrp-author-title {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* ===================================
+   Avatar Navigation
+   =================================== */
+.mrrp-avatar-navigation {
+    position: absolute;
+    bottom: 60px;
+    left: 40px;
+    z-index: 10;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.mrrp-avatar-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.mrrp-avatar-item:hover {
+    transform: scale(1.05);
+}
+
+.mrrp-avatar-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid transparent;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.mrrp-avatar-item.active .mrrp-avatar-image {
+    border-color: #4CAF50;
+    opacity: 1;
+}
+
+.mrrp-avatar-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mrrp-avatar-name {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #ffffff;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.mrrp-avatar-item.active .mrrp-avatar-name {
+    color: #4CAF50;
+    opacity: 1;
+}
+
+/* ===================================
+   Responsive Styles
+   =================================== */
+
+/* Tablet */
+@media (max-width: 1199px) {
+    .mrrp-overlay-box {
+        width: 45%;
+        padding: 32px;
+    }
+    
+    .mrrp-testimonial-quote {
+        font-size: 16px;
+    }
+    
+    .mrrp-avatar-image {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .mrrp-avatar-navigation {
+        bottom: 40px;
+        gap: 12px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .mrrp-testimonial-slider-wrapper {
+        min-height: 500px;
+    }
+    
+    .mrrp-testimonial-slide {
+        padding: 20px;
+        align-items: flex-start;
+        padding-top: 80px;
+    }
+    
+    .mrrp-overlay-box {
+        width: 90%;
+        max-width: none;
+        padding: 24px;
+    }
+    
+    .mrrp-testimonial-quote {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+    
+    .mrrp-author-name {
+        font-size: 14px;
+    }
+    
+    .mrrp-author-title {
+        font-size: 12px;
+    }
+    
+    .mrrp-avatar-navigation {
+        bottom: 20px;
+        left: 20px;
+        gap: 10px;
+        flex-wrap: wrap;
+        max-width: calc(100% - 40px);
+    }
+    
+    .mrrp-avatar-image {
+        width: 36px;
+        height: 36px;
+        border-width: 2px;
+    }
+    
+    .mrrp-avatar-name {
+        font-size: 10px;
+        margin-top: 4px;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+    .mrrp-avatar-navigation {
+        gap: 8px;
+    }
+    
+    .mrrp-avatar-image {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .mrrp-avatar-name {
+        display: none;
+    }
+}
+
+/* ===================================
+   Animations
+   =================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.swiper-slide-active .mrrp-overlay-box {
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* ===================================
+   Elementor Editor Styles
+   =================================== */
+.elementor-editor-active .mrrp-testimonial-slider-wrapper {
+    min-height: 400px;
+}
+
+/* ===================================
+   Loading State
+   =================================== */
+.mrrp-testimonial-slider-wrapper.loading {
+    opacity: 0.5;
+}
+
+.mrrp-testimonial-slider-wrapper.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #4CAF50;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    z-index: 100;
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
