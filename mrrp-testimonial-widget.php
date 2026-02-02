@@ -89,6 +89,12 @@ final class MRRP_Testimonial_Widget {
         // Load plugin text domain
         add_action('init', [$this, 'load_textdomain']);
         
+        
+        // Initialize GitHub updater
+        $this->init_github_updater();
+        
+        // Initialize admin settings
+        $this->init_admin_settings();
         // Initialize GitHub updater
         $this->init_github_updater();
         
@@ -214,24 +220,13 @@ final class MRRP_Testimonial_Widget {
     }
     
     /**
-     * Load plugin text domain
-     */
-    public function load_textdomain() {
-        load_plugin_textdomain('mrrp-testimonial', false, dirname(plugin_basename(__FILE__)) . '/languages');
-    }
-}
-
-// Initialize the plugin
-MRRP_Testimonial_Widget::instance();
-    
-    /**
      * Initialize GitHub updater
      */
     private function init_github_updater() {
         require_once MRRP_TESTIMONIAL_PATH . 'includes/class-github-updater.php';
         new MRRP_GitHub_Updater(
             MRRP_TESTIMONIAL_FILE,
-            'mrrploc94', // TODO: Replace with actual GitHub username
+            'mrrploc94',
             'mrrp-testimonial-widget'
         );
     }
@@ -244,3 +239,14 @@ MRRP_Testimonial_Widget::instance();
             require_once MRRP_TESTIMONIAL_PATH . 'includes/class-admin-settings.php';
         }
     }
+    
+    /**
+     * Load plugin text domain
+     */
+    public function load_textdomain() {
+        load_plugin_textdomain('mrrp-testimonial', false, dirname(plugin_basename(__FILE__)) . '/languages');
+    }
+}
+
+// Initialize the plugin
+MRRP_Testimonial_Widget::instance();
