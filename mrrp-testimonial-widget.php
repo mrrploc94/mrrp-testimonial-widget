@@ -1,20 +1,21 @@
-WordPress Plugin
-Plugin Name: MRRP Testimonial Widget
-Plugin URI: https://github.com/yourusername/mrrp-testimonial-widget
-Description: A professional Elementor widget for displaying testimonials with horizontal scrolling slider, full-width backgrounds, and avatar navigation.
-Version: 1.0.0
-Author: MRRP
-Author URI: https://github.com/yourusername
-License: GPL v2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: mrrp-testimonial
-Domain Path: /languages
-Requires at least: 5.0
-Tested up to: 6.4
-Requires PHP: 7.0
-Elementor tested up to: 3.18
-Elementor Pro tested up to: 3.18
-*/
+<?php
+/**
+ * Plugin Name: MRRP Testimonial Widget
+ * Plugin URI: https://github.com/yourusername/mrrp-testimonial-widget
+ * Description: A professional Elementor widget for displaying testimonials with horizontal scrolling slider, full-width backgrounds, and avatar navigation.
+ * Version: 1.0.0
+ * Author: MRRP
+ * Author URI: https://github.com/yourusername
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: mrrp-testimonial
+ * Domain Path: /languages
+ * Requires at least: 5.0
+ * Tested up to: 6.4
+ * Requires PHP: 7.0
+ * Elementor tested up to: 3.18
+ * Elementor Pro tested up to: 3.18
+ */
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
