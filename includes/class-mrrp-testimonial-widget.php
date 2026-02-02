@@ -57,7 +57,7 @@ class MRRP_Testimonial_Widget_Class extends \Elementor\Widget_Base {
      * Get script dependencies
      */
     public function get_script_depends() {
-        return ['tailwindcss', 'swiper', 'mrrp-testimonial-widget'];
+        return ['swiper', 'mrrp-testimonial-widget'];
     }
     
     /**

@@ -196,15 +196,6 @@ final class MRRP_Testimonial_Widget {
             '11.0.0'
         );
         
-        // Tailwind CSS (CDN) - only load when widget is used
-        wp_register_script(
-            'tailwindcss',
-            'https://cdn.tailwindcss.com',
-            [],
-            '3.4.0',
-            false
-        );
-        
         // Custom widget script
         wp_register_script(
             'mrrp-testimonial-widget',
